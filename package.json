@@ -1,0 +1,28 @@
+{
+  "name": "song-guesser",
+  "version": "1.0.0",
+  "description": "A song guessing game",
+  "homepage": "https://github.com/Sukhman25K/Song-Guesser#readme",
+  "bugs": {
+    "url": "https://github.com/Sukhman25K/Song-Guesser/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sukhman25K/Song-Guesser.git"
+  },
+  "license": "ISC",
+  "author": "Sukhman Kang",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.19.0",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true
+  }
+}
