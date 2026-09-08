@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import GenreSelect from "./components/GenreSelect"
 import Quiz from "./components/Quiz"
-import './App.css'
 
 function App() {
   const [genreId, setGenreId] = useState(null);
