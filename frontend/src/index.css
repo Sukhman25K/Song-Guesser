@@ -17,21 +17,3 @@ body {
   color: var(--color-text);
   font-family: system-ui, "Segoe UI", Roboto, sans-serif;
 }
-
-.rhap_container {
-  background-color: #a89fc9 !important; 
-  box-shadow: none !important;
-}
-
-.rhap_button-clear {
-  color: #1a1625 !important;
-}
-
-.rhap_button-clear:hover {
-  color: #f5f1e8 !important;             /* Hover color */
-}
-
-.rhap_progress-filled,
-.rhap_progress-indicator  {
-  background-color: #1a1625 !important; 
-}

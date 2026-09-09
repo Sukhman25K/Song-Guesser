@@ -5,6 +5,12 @@ import axios from "axios";
 const app = express();
 app.use(cors());
 
+const DIFFICULTY_SETTINGS = {
+    easy:   { index: 0,   limit: 100, playDuration: 30 },
+    medium: { index: 100, limit: 100, playDuration: 15 },
+    hard:   { index: 200, limit: 100, playDuration: 5 }
+};
+
 app.get('/api/genres', async (req, res) => {
     try{
         const response = await axios.get("https://api.deezer.com/genre");
@@ -54,7 +60,7 @@ function buildRound(pool){
     };
 }
 
-function buildQuiz(tracks, numRounds = 5){
+function buildQuiz(tracks, numRounds){
     const shuffledTracks = shuffle(tracks);
     const rounds = [];
 
@@ -69,11 +75,24 @@ function buildQuiz(tracks, numRounds = 5){
 
 app.get('/api/round/:genreId', async (req, res) => {
     const {genreId} = req.params;
-    console.log(genreId);
+    const { rounds = 5, difficulty = "easy"} = req.query;
+
+    const numRounds = Math.min(Math.max(parseInt(rounds), 5), 25);
+    const settings = DIFFICULTY_SETTINGS[difficulty] || DIFFICULTY_SETTINGS.easy;
+    const tracksNeeded = numRounds * 4;
+
     try {
-        const response = await axios.get(`https://api.deezer.com/chart/${genreId}/tracks?limit=20`);
+        const response = await axios.get(`https://api.deezer.com/chart/${genreId}/tracks?index=${settings.index}&limit=${settings.limit}`);
         const tracks = formatTracks(response);
-        res.json(buildQuiz(tracks));
+
+        if(tracks.length < tracksNeeded) {
+            return res.status(404).json({
+                error: `Not enough tracks for ${difficulty} difficulty in this genre (need ${tracksNeeded}), found ${tracks.length}`
+            });
+        }
+
+        const quiz = buildQuiz(tracks, numRounds);
+        res.json({playDuration: settings.playDuration, rounds: quiz});
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch round" });
         console.log(error);

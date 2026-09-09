@@ -1,18 +1,27 @@
 import { useState } from 'react'
 import GenreSelect from "./components/GenreSelect"
 import Quiz from "./components/Quiz"
+import RoundSetup from './components/RoundSetup';
 
 function App() {
   const [genreId, setGenreId] = useState(null);
+  const [config, setConfig] = useState(null);
+
+  function resetToGenres(){
+    setGenreId(null);
+    setConfig(null);
+  }
+
+  if (genreId === null) {
+    return <GenreSelect onSelect={setGenreId} />;
+  }
+
+  if (config === null) {
+    return <RoundSetup onConfirm={setConfig} onBack={() => setGenreId(null)} />;
+  }
 
   return (
-    <div>
-      {genreId === null ? (
-        <GenreSelect onSelect={setGenreId} />
-      ) : (
-        <Quiz genreId={genreId} onExit={() => setGenreId(null)} />
-      )}
-    </div>
+  <Quiz genreId={genreId} onExit={resetToGenres} rounds={config.rounds} difficulty={config.difficulty} />
   )
 }
 

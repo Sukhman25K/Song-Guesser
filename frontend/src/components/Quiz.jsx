@@ -1,23 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
+// import AudioPlayer from 'react-h5-audio-player';
+// import 'react-h5-audio-player/lib/styles.css';
+import AudioPlayer from "./AudioPlayer";
 
-function Quiz({genreId, onExit}) {
+function Quiz({ genreId, rounds: numRounds, difficulty, onExit }) {
     const [rounds, setRounds] = useState([]);
+    const [playDuration, setPlayDuration] = useState(30);
     const [roundIndex, setRoundIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [feedback, setFeedback] = useState(null);
     const [finished, setFinished] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/round/${genreId}`)
-        .then(res => setRounds(res.data))
+        let ignore = false;
+
+        axios.get(`http://localhost:3000/api/round/${genreId}`, {params: {rounds: numRounds, difficulty}})
+        .then(res => {if (!ignore) {setRounds(res.data.rounds); setPlayDuration(res.data.playDuration)}})
         .catch(err => console.log(err));
-    }, [genreId]);
+
+        return () => { ignore = true; };
+    }, [genreId, numRounds, difficulty]);
 
     if (rounds.length === 0) {
-        return <p>Loading quiz...</p>
+        return <p className="text-center text-muted mt-20">Loading quiz...</p>
     }
 
     if (finished){
@@ -57,21 +63,19 @@ function Quiz({genreId, onExit}) {
         <div className="min-h-screen bg-bg px-6 py-10 flex flex-col items-center">
             <div className="w-full max-w-2xl md:max-w-3xl flex items-center justify-between mb-8 md:mb-10">
                 <button onClick={onExit} className="text-muted hover:text-text transition text-sm md:text-base flex items-center gap-1">
-                    ← Genres
-                </button>
-
+                    ← Genres</button>
                 <div className="font-display text-text text-sm md:text-lg bg-surface px-4 md:px-6 py-1.5 md:py-2 rounded-full">
-                    Round {roundIndex + 1} / {rounds.length}
-                </div>
-
-                <p className="font-display text-gold text-sm md:text-lg">
-                    Score: {score}
-                </p>
+                    Round {roundIndex + 1} / {rounds.length}</div>
+                <p className="font-display text-gold text-sm md:text-lg">Score: {score}</p>
             </div>
 
-            {/* <audio key={roundIndex} controls autoPlay src={currentRound.preview} className="w-full max-w-xl mb-8"/> */}
+            {/* <div className="w-full max-w-xl mb-8">
+                <AudioPlayer ref={playerRef} key={roundIndex} src={currentRound.preview} autoPlay showJumpControls={false} 
+                showSkipControls={false} showDownloadProgress={false} customVolumeControls={[]} customAdditionalControls={[]} 
+                onListen={handleAudioPlayer} layout="horizontal-reverse" className="rounded-full"/>
+            </div> */}
             <div className="w-full max-w-xl mb-8">
-                <AudioPlayer src={currentRound.preview} autoPlay showJumpControls={false} showSkipControls={false} showDownloadProgress={false} customVolumeControls={[]} customAdditionalControls={[]} layout="horizontal-reverse" className="rounded-full"/>
+                <AudioPlayer key={roundIndex} src={currentRound.preview} playDuration={playDuration} />
             </div>
 
             <div className="relative grid grid-cols-2 gap-4 max-w-xl w-full">
