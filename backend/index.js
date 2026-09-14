@@ -4,7 +4,9 @@ import genresRouter from "./routes/genres.js";
 import quizRouter from "./routes/quiz.js";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "https://song-guesser-liard.vercel.app"
+}));
 const PORT = process.env.PORT || 3000;
 
 app.use('/api', genresRouter);
