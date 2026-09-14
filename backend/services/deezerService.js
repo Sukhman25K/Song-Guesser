@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DEEZER_BASE = "https://twilight-snow-6f4a.sukhman-25k-279.workers.dev/";
+const DEEZER_BASE = "https://twilight-snow-6f4a.sukhman-25k-279.workers.dev";
 
 export async function fetchGenres() {
     const response = await axios.get(`${DEEZER_BASE}/genre`);
