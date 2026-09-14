@@ -46,11 +46,9 @@ function AudioPlayer({src, playDuration}) {
 
     return (
     <div className="w-full flex items-center gap-4 bg-muted rounded-full px-5 py-3">
-      <audio ref={audioRef} src={src} onTimeUpdate={handleTimeUpdate}
-        onEnded={() => setIsPlaying(false)}/>
+      <audio ref={audioRef} src={src} onTimeUpdate={handleTimeUpdate} onEnded={() => setIsPlaying(false)}/>
 
-      <button onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}
-        className="shrink-0 w-11 h-11 rounded-full bg-bg flex items-center justify-center text-text hover:opacity-90 transition">
+      <button onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"} className="shrink-0 w-11 h-11 rounded-full bg-bg flex items-center justify-center text-text hover:opacity-90 transition">
         {isPlaying ? (
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <rect x="2" y="1" width="4" height="14" rx="1" />
@@ -63,7 +61,6 @@ function AudioPlayer({src, playDuration}) {
         )}
       </button>
 
-      {/* Plain div, not <input type="range"> — not draggable/seekable */}
       <div className="flex-1 h-1.5 bg-black/20 rounded-full overflow-hidden">
         <div className="h-full bg-bg transition-all duration-150" style={{ width: `${progress}%` }}/>
       </div>
