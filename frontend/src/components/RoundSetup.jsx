@@ -4,7 +4,7 @@ import DifficultyOption from "./DifficultyOption";
 const DIFFICULTIES = [
   { id: "easy", label: "Easy", color: "bg-green-500", ring: "ring-green-500", desc: "Top charts · 30s clips" },
   { id: "medium", label: "Medium", color: "bg-yellow-500", ring: "ring-yellow-500", desc: "Deeper cuts · 15s clips" },
-  { id: "hard", label: "Hard", color: "bg-red-500", ring: "ring-red-500", desc: "Obscure tracks · 5s clips" },
+  { id: "hard", label: "Hard", color: "bg-red-500", ring: "ring-red-500", desc: "Niche tracks · 5s clips" },
 ];
 
 function RoundSetup({onConfirm, onBack}) {
@@ -16,12 +16,12 @@ function RoundSetup({onConfirm, onBack}) {
         <div className="w-full max-w-md">
           <button onClick={onBack} className="text-muted hover:text-text transition text-sm mb-8">← Genres</button>
 
-          <h1 className="font-display text-4xl font-semibold text-text text-center mb-10">Set up your quiz</h1>
+          <h1 className="font-display text-4xl font-semibold text-center mb-10">Set up your quiz</h1>
 
           <div className="mb-10">
             <div className="flex justify-between items-baseline mb-3">
               <label className="text-muted text-sm">Rounds</label>
-              <span className="font-display text-2xl text-text">{rounds}</span>
+              <span className="font-display text-2xl">{rounds}</span>
             </div>
             <input type="range" min={5} max={25} step={1} value={rounds} onChange={e => setRounds(Number(e.target.value))} className="w-full accent-accent"/>
             <div className="flex justify-between text-xs text-muted mt-1">
@@ -39,7 +39,7 @@ function RoundSetup({onConfirm, onBack}) {
             </div>
           </div>
 
-          <button onClick={() => onConfirm({ rounds, difficulty })} className="w-full bg-accent text-text font-display text-lg py-3 rounded-lg hover:opacity-90 transition">Start quiz</button>
+          <button onClick={() => onConfirm({ rounds, difficulty })} className="w-full bg-accent font-display text-lg py-3 rounded-lg hover:opacity-90 transition">Start quiz</button>
         </div>
       </div>
   );

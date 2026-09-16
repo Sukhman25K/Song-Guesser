@@ -3,9 +3,15 @@ import cors from "cors";
 import genresRouter from "./routes/genres.js";
 import quizRouter from "./routes/quiz.js";
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://song-guesser-liard.vercel.app"
+];
+
 const app = express();
 app.use(cors({
-    origin: "https://song-guesser-liard.vercel.app"
+    origin: (origin, callback) =>
+        allowedOrigins.includes(origin) ? callback(null, true) : callback(new Error("Not allowed by CORS"))
 }));
 const PORT = process.env.PORT || 3000;
 

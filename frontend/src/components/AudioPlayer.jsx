@@ -48,7 +48,7 @@ function AudioPlayer({src, playDuration}) {
     <div className="w-full flex items-center gap-4 bg-muted rounded-full px-5 py-3">
       <audio ref={audioRef} src={src} onTimeUpdate={handleTimeUpdate} onEnded={() => setIsPlaying(false)}/>
 
-      <button onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"} className="shrink-0 w-11 h-11 rounded-full bg-bg flex items-center justify-center text-text hover:opacity-90 transition">
+      <button onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"} className="shrink-0 w-11 h-11 rounded-full bg-bg flex items-center justify-center hover:opacity-90 transition">
         {isPlaying ? (
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <rect x="2" y="1" width="4" height="14" rx="1" />
