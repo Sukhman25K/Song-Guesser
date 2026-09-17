@@ -9,9 +9,10 @@ const allowedOrigins = [
 ];
 
 const app = express();
+
 app.use(cors({
     origin: (origin, callback) =>
-        allowedOrigins.includes(origin) ? callback(null, true) : callback(new Error("Not allowed by CORS"))
+        (!origin || allowedOrigins.includes(origin)) ? callback(null, true) : callback(new Error("Not allowed by CORS"))
 }));
 const PORT = process.env.PORT || 3000;
 
