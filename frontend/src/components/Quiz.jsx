@@ -3,9 +3,10 @@ import ImageTile from "./ui/ImageTile";
 import QuizComplete from './QuizComplete'
 import QuizHeader from "./QuizHeader";
 import { useQuiz } from "../hooks/useQuiz";
+import ErrorMessage from "./ui/ErrorMessage";
 
 function Quiz({ genreId, rounds: numRounds, difficulty, onExit }) {
-    const {loading, finished, currentRound, roundIndex, totalRounds, score, playDuration, feedback, submitAnswer} = useQuiz(genreId, numRounds, difficulty);
+    const {loading, finished, currentRound, roundIndex, totalRounds, score, playDuration, feedback, submitAnswer, error} = useQuiz(genreId, numRounds, difficulty);
 
     if (loading) {
         return <p className="text-center text-muted mt-20">Loading quiz...</p>
@@ -15,6 +16,10 @@ function Quiz({ genreId, rounds: numRounds, difficulty, onExit }) {
         return (
             <QuizComplete score={score} totalRounds={totalRounds} onExit={onExit} />
         );
+    }
+
+    if (error) {
+        return <ErrorMessage message={error} onRetry={onExit}/>
     }
 
     return (

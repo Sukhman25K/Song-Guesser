@@ -8,14 +8,17 @@ export function useQuiz(genreId, numRounds, difficulty) {
     const [score, setScore] = useState(0);
     const [feedback, setFeedback] = useState(null);
     const [finished, setFinished] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         let ignore = false;
+        setError(null);
 
         api.get(`/round/${genreId}`, { params: { rounds: numRounds, difficulty } })
             .then(res => {if (!ignore) {setRounds(res.data.rounds); setPlayDuration(res.data.playDuration);}})
-            .catch(err => console.log(err));
+            .catch(() => {if (!ignore) setError("We couldn't load this round. The music service might be temporarily unavailable.")})
 
+        setError("We couldn't load this round. The music service might be temporarily unavailable.")
         return () => {ignore = true};
     }, [genreId, numRounds, difficulty]);
 
@@ -42,5 +45,5 @@ export function useQuiz(genreId, numRounds, difficulty) {
         }, 1500);
     }
 
-    return {loading: rounds.length === 0, finished, currentRound, roundIndex, totalRounds: rounds.length, score, playDuration, feedback, submitAnswer};
+    return {loading: rounds.length === 0, finished, currentRound, roundIndex, totalRounds: rounds.length, score, playDuration, feedback, submitAnswer, error};
 }

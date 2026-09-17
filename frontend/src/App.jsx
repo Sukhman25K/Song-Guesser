@@ -2,6 +2,7 @@ import { useState } from 'react'
 import GenreSelect from "./components/GenreSelect"
 import Quiz from "./components/Quiz"
 import RoundSetup from './components/RoundSetup';
+import Footer from './components/Footer';
 
 function App() {
   const [genreId, setGenreId] = useState(null);
@@ -12,17 +13,26 @@ function App() {
     setConfig(null);
   }
 
-  if (genreId === null) {
-    return <GenreSelect onSelect={setGenreId} />;
-  }
+  function renderScreen(){
+    if (genreId === null) {
+      return <GenreSelect onSelect={setGenreId} />;
+    }
 
-  if (config === null) {
-    return <RoundSetup onConfirm={setConfig} onBack={() => setGenreId(null)} />;
+    if (config === null) {
+      return <RoundSetup onConfirm={setConfig} onBack={() => setGenreId(null)} />;
+    }
+
+    return (
+    <Quiz genreId={genreId} onExit={resetToGenres} rounds={config.rounds} difficulty={config.difficulty} />
+    )
   }
 
   return (
-  <Quiz genreId={genreId} onExit={resetToGenres} rounds={config.rounds} difficulty={config.difficulty} />
-  )
+    <>
+      {renderScreen()}
+      <Footer />
+    </>
+  );
 }
 
 export default App;
