@@ -18,7 +18,6 @@ export function useQuiz(genreId, numRounds, difficulty) {
             .then(res => {if (!ignore) {setRounds(res.data.rounds); setPlayDuration(res.data.playDuration);}})
             .catch(() => {if (!ignore) setError("We couldn't load this round. The music service might be temporarily unavailable.")})
 
-        setError("We couldn't load this round. The music service might be temporarily unavailable.")
         return () => {ignore = true};
     }, [genreId, numRounds, difficulty]);
 
