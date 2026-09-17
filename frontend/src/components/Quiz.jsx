@@ -9,7 +9,12 @@ function Quiz({ genreId, rounds: numRounds, difficulty, onExit }) {
     const {loading, finished, currentRound, roundIndex, totalRounds, score, playDuration, feedback, submitAnswer, error} = useQuiz(genreId, numRounds, difficulty);
 
     if (loading) {
-        return <p className="text-center text-muted mt-20">Loading quiz...</p>
+        return (
+            <div className="flex flex-col items-center justify-center gap-4 mt-20">
+                <div className="w-12 h-12 border-4 border-muted border-t-accent rounded-full animate-spin" />
+                <p className="font-display text-3xl text-text animate-pulse">Loading quiz...</p>
+            </div>
+        );
     }
 
     if (finished){
